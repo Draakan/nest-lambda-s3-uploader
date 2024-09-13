@@ -3,7 +3,7 @@ name: NestJS Serverless
 run-name: Deploy serverless 🚀
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 jobs:
