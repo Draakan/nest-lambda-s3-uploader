@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: NestJS Serverless
 
 run-name: Deploy serverless 🚀
 
@@ -29,18 +29,17 @@ jobs:
       run: pnpm run sls:build
 
     - name: Deploy
-      run: S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} pnpm run sls:deploy:prod
-      # uses: serverless/github-action@master
-      # with:
-        # args: deploy --stage prod --param=bucket_name=${{ secrets.S3_BUCKET_NAME }}
+      run: |
+        export S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}
+        pnpm run sls:deploy:prod
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        MONGODB_URI: ${{ env.MONGODB_URI }}
-        JWT_SECRET: ${{ env.JWT_SECRET }}
-        JWT_EXPIRATION_TIME: ${{ env.JWT_EXPIRATION_TIME }}
-        AWS_S3_REGION: ${{ env.AWS_S3_REGION }}
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_EXPIRATION_TIME: ${{ secrets.JWT_EXPIRATION_TIME }}
+        AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
         AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
-        UPLOAD_RATE_TTL: ${{ env.UPLOAD_RATE_TTL }}
-        UPLOAD_RATE_LIMIT: ${{ env.UPLOAD_RATE_LIMIT }}
+        UPLOAD_RATE_TTL: ${{ secrets.UPLOAD_RATE_TTL }}
+        UPLOAD_RATE_LIMIT: ${{ secrets.UPLOAD_RATE_LIMIT }}
