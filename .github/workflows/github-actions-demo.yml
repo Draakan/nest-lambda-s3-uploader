@@ -20,6 +20,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i pnpm @vercel/ncc serverless -g && pnpm install --frozen-lockfile
+    - run: ncc build src/serverless.ts --out slsdist -m 
     # - name: serverless deploy
       # uses: serverless/github-action@v3.2
       # with:
