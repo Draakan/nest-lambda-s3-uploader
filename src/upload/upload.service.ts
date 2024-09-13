@@ -20,7 +20,7 @@ export class UploadService {
         }),
       );
     } catch (error) {
-      console.log(error);
+      throw new Error(error.message);
     }
   }
 }

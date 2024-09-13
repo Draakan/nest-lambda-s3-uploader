@@ -30,5 +30,9 @@ export class UploadController {
     @CurrentUser() user: UserResponse,
   ) {
     await this.uploadService.upload(file.originalname, file.buffer, user._id);
+
+    return {
+      message: 'File has been successfully uploaded',
+    };
   }
 }

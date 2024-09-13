@@ -1,0 +1,48 @@
+service: nest-lambda-s3-uploader
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+          Resource: arn:aws:s3:::${param:bucket_name}/*
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+
+    JWT_SECRET: ${env:JWT_SECRET}
+    JWT_EXPIRATION_TIME: ${env:JWT_EXPIRATION_TIME}
+
+    AWS_S3_REGION: ${env:AWS_S3_REGION}
+    AWS_S3_BUCKET: ${env:AWS_S3_BUCKET}
+
+    UPLOAD_RATE_TTL: ${env:UPLOAD_RATE_TTL}
+    UPLOAD_RATE_LIMIT: ${env:UPLOAD_RATE_LIMIT}
+
+functions:
+  main:
+    handler: slsdist/index.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+
+package:
+  patterns:
+    - '!src/**'
+    - '!test/**'
+    - '!dist/**'
+    - '!node_modules/**'
+    - 'slsdist'
