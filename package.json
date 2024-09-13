@@ -26,7 +26,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "sls:build": "ncc build src/serverless.ts --out slsdist -m",
-    "sls:deploy:prod": "sls deploy --stage prod --param=bucket_name=$S3_BUCKET_NAME"
+    "sls:deploy:prod": "sls deploy --stage prod --param=bucket_name=$AWS_S3_BUCKET"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.649.0",
