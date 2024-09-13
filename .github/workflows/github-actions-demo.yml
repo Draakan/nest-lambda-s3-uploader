@@ -22,7 +22,7 @@ jobs:
 
     - name: Prepare
       run: |
-        npm i pnpm @vercel/ncc serverless -g
+        npm i pnpm @vercel/ncc -g
         pnpm install --frozen-lockfile
 
     - name: Build
@@ -31,7 +31,7 @@ jobs:
     - name: Deploy
       uses: serverless/github-action@master
       with:
-        args: deploy --stage prod --param=bucket_name=$S3_BUCKET_NAME
+        args: deploy --stage prod --param=bucket_name=${{ secrets.S3_BUCKET_NAME }}
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
