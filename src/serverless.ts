@@ -16,6 +16,8 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(morgan('dev'));
 
+  console.log('THIS IS A NEW VERSION')
+
   await app.init();
 
   const expressApp = app.getHttpAdapter().getInstance();
