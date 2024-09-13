@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i pnpm @vercel/ncc -g && pnpm ci
+    - run: npm i pnpm @vercel/ncc -g && pnpm install --frozen-lockfile
     # - name: serverless deploy
       # uses: serverless/github-action@v3.2
       # with:
