@@ -18,13 +18,10 @@ provider:
           Resource: arn:aws:s3:::${param:bucket_name}/*
   environment:
     MONGODB_URI: ${env:MONGODB_URI}
-
     JWT_SECRET: ${env:JWT_SECRET}
     JWT_EXPIRATION_TIME: ${env:JWT_EXPIRATION_TIME}
-
     AWS_S3_REGION: ${env:AWS_S3_REGION}
     AWS_S3_BUCKET: ${env:AWS_S3_BUCKET}
-
     UPLOAD_RATE_TTL: ${env:UPLOAD_RATE_TTL}
     UPLOAD_RATE_LIMIT: ${env:UPLOAD_RATE_LIMIT}
 

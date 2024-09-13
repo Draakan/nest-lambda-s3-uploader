@@ -1,14 +1,14 @@
-name: GitHub Actions Demo
+name: NestJS Serverless
 
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: Deploy serverless 🚀
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 jobs:
-  deploy:
-    name: deploy
+  serverless:
+    name: Serverless lambda
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -19,13 +19,27 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i pnpm -g
-    # - name: serverless deploy
-      # uses: serverless/github-action@v3.2
-      # with:
-        # args: deploy
-      # env:
-        # SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-        # or if using AWS credentials directly
-        # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Prepare
+      run: |
+        npm i pnpm @vercel/ncc serverless -g
+        pnpm install --frozen-lockfile
+
+    - name: Build
+      run: pnpm run sls:build
+
+    - name: Deploy
+      run: |
+        export AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET }}
+        pnpm run sls:deploy:prod
+      env:
+        SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_EXPIRATION_TIME: ${{ secrets.JWT_EXPIRATION_TIME }}
+        AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+        AWS_S3_BUCKET: $AWS_S3_BUCKET
+        UPLOAD_RATE_TTL: ${{ secrets.UPLOAD_RATE_TTL }}
+        UPLOAD_RATE_LIMIT: ${{ secrets.UPLOAD_RATE_LIMIT }}
